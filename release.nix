@@ -5,5 +5,5 @@
 let
   pkgs = import nixpkgs nixpkgsArgs;
 in {
-  build = pkgs.callPackage ./. { inherit project; };
+  build = pkgs.callPackage ./. { project = builtins.storePath project; };
 }
