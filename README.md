@@ -10,9 +10,10 @@ Setup
 2. If you use a custom wagon for downloading dependencies, add the corresponding
    maven extension to `:extensions` in your `project.clj`. For example, if you
    use `lein-maven-s3-wagon`, you can add `maven-s3-wagon` to `:extensions`.
-3. Run `mvn org.nixos.mvn2nix:mvn2nix-maven-plugin:mvn2nix`
+3. Run `lein pom`
+4. Run `mvn org.nixos.mvn2nix:mvn2nix-maven-plugin:mvn2nix`
 
-Step 3 must be performed whenever any dependencies change.
+Steps 3 and 4 must be performed whenever any dependencies change.
 
 Building locally
 -----------------
