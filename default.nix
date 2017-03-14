@@ -4,6 +4,7 @@ let pkgs = import <nixpkgs> {}; in
 , jdk ? pkgs.jdk
 , stdenv ? pkgs.stdenv
 , project ? <project>
+, uberjarName ? "*standalone.jar"
 }:
 let
   inherit (buildMaven (project + "/project-info.json")) repo build info;
@@ -29,6 +30,6 @@ in stdenv.mkDerivation {
   buildPhase = "lein uberjar";
 
   installPhase = ''
-    find . -name '*standalone.jar' -exec mv '{}' $out \;
+    find . -name '${uberjarName}' -exec mv '{}' $out \;
   '';
 }

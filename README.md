@@ -20,6 +20,9 @@ Building locally
 
 `nix-build -I project=/path/to/lein/project`
 
+As needed, pass `--argstr uberjarName "project.jar"` to replace the default,
+`*-standalone.jar`.
+
 Building on hydra
 ------------------
 
