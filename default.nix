@@ -4,6 +4,7 @@ let pkgs = import <nixpkgs> {}; in
 , jdk ? pkgs.jdk
 , stdenv ? pkgs.stdenv
 , project ? <project>
+, uberjarName ? "*standalone.jar"
 }:
 let
   inherit (buildMaven (project + "/project-info.json")) repo build info;
@@ -14,22 +15,21 @@ in stdenv.mkDerivation {
 
   buildInputs = [ leiningen ];
 
+  nativeBuildInputs = [ pkgs.makeWrapper ];
+
   LEIN_OFFLINE = 1;
 
   configurePhase = ''
     mkdir -p home/.m2
     ln -s ${repo} home/.m2/repository
-    # This is so hacky!
-    cat > java <<EOF
-    exec ${jdk}/bin/java -Duser.home=$PWD/home "\$@"
-    EOF
-    chmod +x java
+    ln -s ${jdk}/bin/java java
+    wrapProgram java --add-flags -Duser.home=$PWD/home
     export LEIN_JAVA_CMD=$PWD/java
   '';
 
   buildPhase = "lein uberjar";
 
   installPhase = ''
-    find . -name '*standalone.jar' -exec mv '{}' $out \;
+    find . -name '${uberjarName}' -exec mv '{}' $out \;
   '';
 }
