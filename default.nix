@@ -27,7 +27,7 @@ in stdenv.mkDerivation {
     export LEIN_JAVA_CMD=$PWD/java
   '';
 
-  buildPhase = "lein uberjar";
+  buildPhase = "HOME=$PWD/home lein uberjar";
 
   installPhase = ''
     find . -name '*standalone.jar' -exec mv '{}' $out \;
